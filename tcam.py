@@ -4,20 +4,27 @@ class tcam:
         self.MaxEntries=size
         self.content=[]
         
-    def insert(self,key, mask, pri, val):
+    def insert(self,key, mask, pri, val, addr=None):
         if len(self.content) < self.MaxEntries:
-            self.content.append((key,mask,pri,val))
+            self.content.append((key,mask,pri,val,addr))
         else:
             print("memory full")
     
     def search(self,val):
         res=None
-        for (mask,key,pri,resO) in self.content:
+        for (mask,key,pri,resO,_) in self.content:
             if (key & mask) == (val & mask) and res[1]<pri:
                 res = (resO, pri)
         return res
         
-    
+    def delete(self, addr):
+        i=0
+        for (_,_,_,_,elem) in self.content:
+            if addr==elem:
+                del self.content[i]
+                break
+            i=i+1
+        
     def delete(self, key, mask):
         i=0
         for (mask, key, _,_) in self.content:
