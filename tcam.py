@@ -3,12 +3,13 @@ class tcam:
     """ a basic tcam class
     
     """
-    def __init__(self,size=sys.maxsize):
+    def __init__(self,entryWidth, size=sys.maxsize):
         """
         size : max number of entries
         TODO : add the possibility to constraints entry width
         """
         self.MaxEntries=size
+        self.EntryWidth=entryWidth
         self.content=[]
         
     def insert(self,key, mask, pri, val, addr=None):
@@ -66,6 +67,10 @@ class tcam:
         simple print of the memory content
         TODO: look at a way for a better format
         """
+        printFormat="{0:0{0}b}".format(self.EntryWidth)
         print("number of entries ", len(self.content))
-        print(self.content)
+        for (key,mask,pri,res,_) in self.content:
+            print("key  : {}".format(printFormat.format(key)))
+            print("mask : {}".format(printFormat.format(mask)))
+            print("priority : {0}, result : {1}".format(pri,res))
     

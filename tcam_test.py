@@ -2,7 +2,7 @@
 from tcam import tcam
 
 def main():
-    mem=tcam()
+    mem=tcam(100)
     mem.insert(5,1,0,4,256)
     mem.print()
     print(mem.search(5))
