@@ -30,11 +30,14 @@ class tcam:
         if two match have the same priority take the first one found
         TODO: better algorithm for search
         """
-        res=None
-        for (mask,key,pri,resO,_) in self.content:
-            if (key & mask) == (val & mask) and res[1]<pri:
+        res=(0,-1)
+        for (key,mask,pri,resO,_) in self.content:
+            if (key & ~mask) == (val & ~mask) and  res[1]<pri:
                 res = (resO, pri)
-        return res[0]
+        if res==(0,-1):
+            return None
+        else:
+            return res[0]
         
     def delete(self, addr):
         """
