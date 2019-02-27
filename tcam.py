@@ -71,22 +71,31 @@ class tcam:
         delete the entry at addr
         """
         i=0
+        notFind=True
         for (_,_,_,_,elem) in self.Content:
             if addr==elem:
                 del self.Content[i]
+                notFind=False
                 break
             i=i+1
+        if notFind:
+            raise ValueError("Address {} is not present".format(addr))
         
     def deleteKM(self, key, mask):
         """
         delete the entry corresponding key, mask
         """
         i=0
-        for (mask, key, _,_) in self.Content:
-            if mask==mask and key==key:
+        notFind=True
+        for (keyC,maskC,_,_,_) in self.Content:
+            if mask==maskC and key==keyC:
                 del self.Content[i]
+                notFind=False
             else:
                 i=i+1
+
+        if notFind:
+            raise ValueError("pair (key,mask): ({}, {}) not found".format(key,mask))
         
     def __str__(self):
         ret=[]
