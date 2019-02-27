@@ -1,6 +1,8 @@
 import sys
 import math
 import warnings
+import logging
+
 class tcam:
     """ a basic tcam class
     
@@ -36,17 +38,17 @@ class tcam:
 
         if len(self.Content) >= self.MaxEntries:
             raise MemoryError("memory full content {} not inserted".format(line))
-        if key != 0 and math.log2(key) > self.EntryWidth:
+        if key > 2**self.EntryWidth-1 or key < 0:
             raise ValueError("inserted key {} too large".format(key))
-        if mask != 0 and math.log2(mask) > self.EntryWidth:
+        if mask > 2**self.EntryWidth-1 or mask < 0:
             raise ValueError("inserted mask {} too large".format(mask))
-        if pri!= 0 and math.log2(pri) > self.PriorityWidth:
+        if pri > 2**self.PriorityWidth-1 or pri < 0:
             raise ValueError("inserted priority key {} too large".format(pri))
-        if val != 0 and math.log2(val) > self.ValueWidth:
+        if val > 2**self.ValueWidth-1 or val < 0:
             raise ValueError("inserted value {} too large".format(val))
         
         self.Content.append(line)
-        print("content {} inserted".format(line))
+        logging.info("content {} inserted".format(line))
 
     
     def search(self,val):
@@ -64,7 +66,7 @@ class tcam:
         else:
             return res[0]
         
-    def delete(self, addr):
+    def deleteAddr(self, addr):
         """
         delete the entry at addr
         """
@@ -75,7 +77,7 @@ class tcam:
                 break
             i=i+1
         
-    def delete(self, key, mask):
+    def deleteKM(self, key, mask):
         """
         delete the entry corresponding key, mask
         """
@@ -86,6 +88,9 @@ class tcam:
             else:
                 i=i+1
 
+    def __str__(self):
+        return ""
+    
     def print(self):
         """
         simple print of the memory content
@@ -95,8 +100,6 @@ class tcam:
         printFormat='{{0:0{0}b}}'.format(self.EntryWidth)
         print("number of entries ", len(self.Content))
         for (key,mask,pri,res,_) in self.Content:
-            #print("key  : {}".format(printFormat.format(key)))
-            #print("mask : {}".format(printFormat.format(mask)))
             l=list(printFormat.format(key))
             for i in find_all(printFormat.format(mask),'1'):
                 l[i]='*'
