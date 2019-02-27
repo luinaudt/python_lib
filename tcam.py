@@ -67,10 +67,14 @@ class tcam:
         simple print of the memory content
         TODO: look at a way for a better format
         """
-        printFormat="{0:0{0}b}".format(self.EntryWidth)
+        find_all = lambda c,s: [x for x in range(c.find(s), len(c)) if c[x] == s]
+        printFormat='{{0:0{0}b}}'.format(self.EntryWidth)
         print("number of entries ", len(self.content))
         for (key,mask,pri,res,_) in self.content:
-            print("key  : {}".format(printFormat.format(key)))
-            print("mask : {}".format(printFormat.format(mask)))
+            #print("key  : {}".format(printFormat.format(key)))
+            #print("mask : {}".format(printFormat.format(mask)))
+            l=list(printFormat.format(key))
+            for i in find_all(printFormat.format(mask),'1'):
+                l[i]='*'
+            print("key : {}".format("".join(l)))
             print("priority : {0}, result : {1}".format(pri,res))
-    

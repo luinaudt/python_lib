@@ -2,8 +2,8 @@
 from tcam import tcam
 
 def main():
-    mem=tcam(100)
-    mem.insert(5,1,0,4,256)
+    mem=tcam(16)
+    mem.insert(5,3,0,4,256)
     mem.print()
     print(mem.search(5))
     print(mem.search(4))
