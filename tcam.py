@@ -87,15 +87,15 @@ class tcam:
         """
         i=0
         notFind=True
-        for (mask, key, _,_) in self.Content:
-            if mask==mask and key==key:
+        for (keyC,maskC,_,_,_) in self.Content:
+            if mask==maskC and key==keyC:
                 del self.Content[i]
                 notFind=False
             else:
                 i=i+1
 
         if notFind:
-            raise ValueError("pair (key,mask): ({}.{}) not found".format(key,mask))
+            raise ValueError("pair (key,mask): ({}, {}) not found".format(key,mask))
         
     def __str__(self):
         ret=[]
