@@ -87,7 +87,7 @@ class tcam:
                 del self.Content[i]
             else:
                 i=i+1
-
+        
     def __str__(self):
         ret=[]
         find_all = lambda c,s: [x for x in range(c.find(s), len(c)) if c[x] == s]
@@ -100,4 +100,7 @@ class tcam:
             ret.append("key : {}".format("".join(l)))
             ret.append("priority : {0}, result : {1}".format(pri,res))
         return "\n".join(ret)
-    
+    def __len__(self):
+        """return number of entries
+        """
+        return len(self.Content)
