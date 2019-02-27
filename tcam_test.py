@@ -6,6 +6,7 @@ def test_size_limit_insertion():
     mem=tcam(16,8,5,32,2)
     mem.insert(5,3,0,4,0)
     mem.insert(9,3,0,15,1)
+    print(mem)
     try:
         mem.insert(5,3,0,4,2)
     except MemoryError:

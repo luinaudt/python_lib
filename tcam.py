@@ -89,19 +89,15 @@ class tcam:
                 i=i+1
 
     def __str__(self):
-        return ""
-    
-    def print(self):
-        """
-        simple print of the memory content
-        TODO: look at a way for a better format
-        """
+        ret=[]
         find_all = lambda c,s: [x for x in range(c.find(s), len(c)) if c[x] == s]
         printFormat='{{0:0{0}b}}'.format(self.EntryWidth)
-        print("number of entries ", len(self.Content))
+        ret.append("number of entries {}".format(len(self.Content)))
         for (key,mask,pri,res,_) in self.Content:
             l=list(printFormat.format(key))
             for i in find_all(printFormat.format(mask),'1'):
                 l[i]='*'
-            print("key : {}".format("".join(l)))
-            print("priority : {0}, result : {1}".format(pri,res))
+            ret.append("key : {}".format("".join(l)))
+            ret.append("priority : {0}, result : {1}".format(pri,res))
+        return "\n".join(ret)
+    
